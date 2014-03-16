@@ -1,0 +1,192 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{nips13submit_e,times}
+\usepackage{hyperref}
+\usepackage{url}
+%\documentstyle[nips13submit_09,times,art10]{article} % For LaTeX 2.09
+
+
+\title{Project Proposal: Digit Recognizer}
+
+\author{
+Jimmy Lin \thanks{Supervised by Prof. Pradeep Ravikumar} \\
+Department of Computer Science\\
+University of Texas at Austin\\
+Austin, TX 78712 \\
+\texttt{JimmyLin@utexas.edu} \\
+%{{{ For More Author
+%\And
+%Coauthor \\
+%Affiliation \\
+%Address \\
+%\texttt{email} \\
+%\AND
+%Coauthor \\
+%Affiliation \\
+%Address \\
+%\texttt{email} \\
+%\And
+%Coauthor \\
+%Affiliation \\
+%Address \\
+%\texttt{email} \\
+%\And
+%Coauthor \\
+%Affiliation \\
+%Address \\
+%\texttt{email} \\
+%(if needed)\\
+%}}}
+}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\nipsfinalcopy % Uncomment for camera-ready version
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+%    BACKGROUND. The idea of recognizing digit . 
+%    The goal in this project is to take an image of a handwritten single
+%    digit, and determine what that digit is.  
+%    
+%    Kaggle competition. 
+%    We propose to 
+
+%\end{abstract}
+
+\section{Introduction}
+% MOTIVATION SENTENCE
+Recognizing hand-written characters has long been a hot topic in artificial
+intelligence community. 
+% KEY CONCEPT (PROBLEM) ILLUMINATION
+Handwriting recognition is the ability of a computer to receive and
+interpret intelligible handwritten input from sources such as paper documents,
+photographs, touch-screens and other devices.
+% SUMMARIZE THE SOLUTION
+In the past decades, many probabilistic or non-probabilistic algorithms have been exploited to
+effectively solve this problem, including K-nearest neighbour,
+random forest, and well-known neural network. 
+
+% DESCRIBE FORMAT OF REST OF PROPOSAL
+In this project proposal, we will explain the reason of diving into this
+problem and demonstrate reader the some details of our experimental project.
+And most importantly, the planned timeline of project progress will be present
+to reader in later section.
+
+\section{Motivation}
+
+% [PROBLEM HISTORY]
+
+
+% APPLICATION OF THIS PROBLEM 
+As to the historical application of handwriting recognition, basically they
+are catogorized into two parts, one for hardware and the other for software.
+For hardware part, commercial products incorporating handwriting
+recognition as a replacement for keyboard input were introduced in the early
+1980s. The hardware application continued to develop in the following decades.
+Until the recent years, Tablet PCs can be regarded as a special notebook
+computer that is outfitted with a digitizer tablet and a stylus, and
+allows a user to handwrite text on the unit's screen. For software part, 
+
+% RELATED WORKS/SOLUTION
+Plenty of mature solutions has already been developed to existence in solving
+the handwriting problem. 
+Since 2009, the recurrent neural networks and deep feedforward neural networks
+developed in the research group of Jürgen Schmidhuber at the Swiss AI Lab
+IDSIA have outshined many other models in competitions.
+% POSSIBLE IMPROVEMENTS?
+The fact that existing algorithms are powerful in recognizing digits does not
+remove possibility of further improvement. The chance of improvement lies in
+reduction of computational complexity for recognizing digits in higher degree.
+
+
+% \section{Project Summary}
+
+\section{Project Details}
+
+What deserves being mentioned is that the holder of this Kaggle Competition
+provides us two basic models to better illuminate the problem of digit
+recognition and the form of given dataset, the MINIST.
+
+\subsection{Provided Baseline Models}
+As mentioned above, implementations of two baseline models are provided by the
+holder of that kaggle competition. These baselines are respectively K-Nearest
+Neighbour Model and Random Forest Model. However, the baseline models are
+extremely computationally expensive since they naively employ the raw data
+without turning to feature extraction methods.
+
+\subsection{Models To Explore}
+In this project, we should first implement effective feature extraction from
+the raw image intensity data in MINIST.
+
+% TODO: what algorithm to try
+Besides, we will further investigate the performance of a series of machine learning
+algorithms on digit recognition. Our attempt will involve in neural network,
+deep learning. For specific implementation, we will refer to existing
+libraries unless there does not exist one.
+
+\subsection{Timeline}
+% How this project is arranged
+The project timeline is shown as follows:
+\begin{itemize}
+    \item{\textbf{March. 23 - April. 02}. Propose project and try provided
+            baseline models. Implement feature extraction.}
+    \item{\textbf{April. 02 - April. 12}. Explore performance of new models in
+        given dataset. Tasks may involves in reading relevant paper and
+        referring to relevant libraries. Current plan at this stage is to
+        achieve simple model like neural network and some generative models
+        .}
+    \item{\textbf{April. 13 - April. 18}. Draft initial version of project report
+        and record perfermance results of all attempted models. }
+    \item{\textbf{April. 19 - April. 25}. Further explore some more advanced models.}
+    \item{\textbf{April. 25 - May. 2}. Put down new progress at second-time
+            exploration and proofread the project report.}
+\end{itemize}
+
+\section{Conclusion} \label{Conclusion}
+    % primary objective 
+    The main objective of this project is to apply various existing machine
+    learning algorithms on the long-lasting digit recognition problem and
+    evaluate the performance of each algorithm on solving this particular
+    problem.
+    % secondary objective
+    In addition, we leave another problem, the feature extraction, as our
+    secondary focus. 
+    
+    % expectation of result
+    Our wish is to achieve a model with digit recognition accuracy as close to
+    $100\%$ as possible. Actually, about $10$ teams have already fulfill
+    perfect recognizer, identifying given digit image with no error!  But for
+    us, a accuracy over $90\%$ is acceptable for this experimental project.
+
+% TODO: add some references
+\section{References}
+
+\small{
+[1] Alexander, J.A. \& Mozer, M.C. (1995) Template-based algorithms
+for connectionist rule extraction. In G. Tesauro, D. S. Touretzky
+and T.K. Leen (eds.), {\it Advances in Neural Information Processing
+Systems 7}, pp. 609-616. Cambridge, MA: MIT Press.
+
+[2] Bower, J.M. \& Beeman, D. (1995) {\it The Book of GENESIS: Exploring
+Realistic Neural Models with the GEneral NEural SImulation System.}
+New York: TELOS/Springer-Verlag.
+
+[3] Hasselmo, M.E., Schnell, E. \& Barkai, E. (1995) Dynamics of learning
+and recall at excitatory recurrent synapses and cholinergic modulation
+in rat hippocampal region CA3. {\it Journal of Neuroscience}
+{\bf 15}(7):5249-5262.
+}
+
+\end{document}
