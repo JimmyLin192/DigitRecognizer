@@ -8,17 +8,17 @@
 \title{Project Proposal: Digit Recognizer}
 
 \author{
-Jimmy Lin \thanks{Supervised by Prof. Pradeep Ravikumar} \\
+Jimmy Lin  \\
 Department of Computer Science\\
 University of Texas at Austin\\
 Austin, TX 78712 \\
 \texttt{JimmyLin@utexas.edu} \\
 %{{{ For More Author
-%\And
-%Coauthor \\
-%Affiliation \\
-%Address \\
-%\texttt{email} \\
+\And
+Coauthor \\
+Affiliation \\
+Address \\
+\texttt{email} \\
 %\AND
 %Coauthor \\
 %Affiliation \\
@@ -80,24 +80,22 @@ random forest, and well-known neural network.
 
 % DESCRIBE FORMAT OF REST OF PROPOSAL
 In this project proposal, we will explain the reason of diving into this
-problem and demonstrate reader the some details of our experimental project.
-And most importantly, the planned timeline of project progress will be present
-to reader in later section.
+problem and demonstrate reader some details of our experimental project.
+And more importantly, the planned timeline of project progress and our
+expectation will be present to reader in later section.
 
 \section{Motivation}
 
-% [PROBLEM HISTORY]
-
-
 % APPLICATION OF THIS PROBLEM 
-As to the historical application of handwriting recognition, basically they
-are catogorized into two parts, one for hardware and the other for software.
-For hardware part, commercial products incorporating handwriting
-recognition as a replacement for keyboard input were introduced in the early
-1980s. The hardware application continued to develop in the following decades.
-Until the recent years, Tablet PCs can be regarded as a special notebook
-computer that is outfitted with a digitizer tablet and a stylus, and
-allows a user to handwrite text on the unit's screen. For software part, 
+As to the historical application of handwriting recognition, 
+it can be traced back to early 1980s.  There are plenty of commercial products
+incorporating handwriting recognition as a replacement for keyboard input were
+introduced. The hardware application continued to develop
+in the following decades.  Until the recent years, Tablet PCs can be regarded
+as a special notebook computer that is outfitted with a digitizer tablet and a
+stylus, and allows a user to handwrite text on the unit's screen. In addition,
+highly efficient handwriting recognizers were developed in real world to apply
+on the zip codes detection.
 
 % RELATED WORKS/SOLUTION
 Plenty of mature solutions has already been developed to existence in solving
@@ -124,32 +122,35 @@ As mentioned above, implementations of two baseline models are provided by the
 holder of that kaggle competition. These baselines are respectively K-Nearest
 Neighbour Model and Random Forest Model. However, the baseline models are
 extremely computationally expensive since they naively employ the raw data
-without turning to feature extraction methods.
+without turning to feature extraction methods. 
 
 \subsection{Models To Explore}
 In this project, we should first implement effective feature extraction from
-the raw image intensity data in MINIST.
+the raw image intensity data in MINIST. One possible method for attempt is
+Principle Component Analysis, which extracts the most distinct components of
+specified size. 
 
-% TODO: what algorithm to try
 Besides, we will further investigate the performance of a series of machine learning
-algorithms on digit recognition. Our attempt will involve in neural network,
-deep learning. For specific implementation, we will refer to existing
-libraries unless there does not exist one.
+algorithms on digit recognition. Our attempt for this part will involve in
+neural network algorithm, Support Vector Machine with multiple class labeling,
+and treat Deep Learning algorithm as extension. For specific implementation of
+other algorithms, we will refer to existing libraries.
 
 \subsection{Timeline}
 % How this project is arranged
 The project timeline is shown as follows:
 \begin{itemize}
-    \item{\textbf{March. 23 - April. 02}. Propose project and try provided
-            baseline models. Implement feature extraction.}
+    \item{\textbf{March. 23 - April. 02}. Propose project. Run two 
+            provided baseline models and evaluate its performance. 
+            Implement feature extraction PCA.}
     \item{\textbf{April. 02 - April. 12}. Explore performance of new models in
-        given dataset. Tasks may involves in reading relevant paper and
-        referring to relevant libraries. Current plan at this stage is to
-        achieve simple model like neural network and some generative models
-        .}
+        given dataset. Tasks may involves in reading relevant paper. Current
+        plan at this stage is to achieve neural network algorithm and
+        support vector machine on the preprocessed data.}
     \item{\textbf{April. 13 - April. 18}. Draft initial version of project report
-        and record perfermance results of all attempted models. }
-    \item{\textbf{April. 19 - April. 25}. Further explore some more advanced models.}
+        . Record and compare temporal and spatial perfermance of all attempted algorithms. }
+    \item{\textbf{April. 19 - April. 25}. Extension: Further explore some more advanced
+            models, say, Deep neural network. (TODO if time permitted)}
     \item{\textbf{April. 25 - May. 2}. Put down new progress at second-time
             exploration and proofread the project report.}
 \end{itemize}
