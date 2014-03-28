@@ -2,7 +2,7 @@
 \usepackage{nips13submit_e,times}
 \usepackage{hyperref}
 \usepackage{url}
-\usepackage{tikz}
+\usepackage{tikz,amsmath}
 %\documentstyle[nips13submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -211,7 +211,29 @@ corresponds to the regression or prediction decision.
 
 {\large [TODO: brief technical introduction and notation]}
 
-Mathematically, 
+Mathematically, a series of training entities are provided. We just take one
+entity $\mathbf{x}$ as example. The entire input layer are fed by the instance
+$\mathbf{x} = (x_1, ..., x_n)$. And the information passed in to the $j-th$
+hidden nodes $a_j$ is computed by 
+
+\begin{align}
+    a_j = \sum_{i} w_{ji} x_i 
+\end{align}
+
+For each hidden node, after receiving the information from input layer,
+derive its value $y_j$ through what it acquire by activation function $h(x)$:
+
+\begin{align}
+   y_j = h(a_j) = h(\sum_{i} w_{ji} x_i)    
+\end{align}
+
+Since we formulate digit recognition as a multi-class classification problem,
+the activation function in the output layer should be softmax function: 
+
+\begin{align}
+    dd
+\end{align}
+
 
 To train neural network model, we need to feed the neural network with a
 series of entities. The flow of information, while doing training,
@@ -293,3 +315,4 @@ Deep, big, simple neural nets for handwritten digit recognition. {\it Neural
 \section{Deep Learning}
 
 \end{document}
+    
