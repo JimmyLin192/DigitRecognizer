@@ -27,4 +27,6 @@ The goal in this competition is to take an image of a handwritten single digit, 
 The data for this competition were taken from the MNIST dataset. The MNIST ("Modified National Institute of Standards and Technology") dataset is a classic within the Machine Learning community that has been extensively studied.  More detail about the dataset, including Machine Learning algorithms that have been tried on it and their levels of success, can be found at http://yann.lecun.com/exdb/mnist/index.html.
 
 
-
+Progress #1 issued at March 29
+---------------
+We work out initial version of *Principle Component Analysis*(PCA), and submit it with KNN classification model. In this submission, we acquire an prediction accuracy of *0.96886* and ranked at 148 at that date.
