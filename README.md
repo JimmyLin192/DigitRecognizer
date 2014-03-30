@@ -29,4 +29,6 @@ The data for this competition were taken from the MNIST dataset. The MNIST ("Mod
 
 Progress #1 issued at March 29
 ---------------
-We work out initial version of ***Principle Component Analysis***(PCA), and submit it with KNN classification model. In this submission, we acquire an prediction accuracy of ***0.96886*** and ranked at ***148*** at that date.
+We work out initial version of **Principle Component Analysis**(PCA), and submit it with KNN classification model. In this submission, we acquire an prediction accuracy of **0.96886** and ranked at **148** at that date.
+
+We also tried Random Forest method based on PCA 100 pricipal components and achieve **0.95457** accuracy.
