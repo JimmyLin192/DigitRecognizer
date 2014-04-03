@@ -1,7 +1,17 @@
 % Neural Network for multi-class classification problem
 % Author: Jimmy Lin
 % Note that the input hiddenNodes does not include intercept node
+% sample input: [300 200 100 50]
+% README:  A{1}(4) input of hidden node at layer 1 indexed by 4
+%    A - input of each layer node
+%    Z - activated value of each node
+%    WEIGHTS - 
 function NN(hiddenNodes, iterations, trainInFile, testInFile, testOutFile)
+% TODO:
+%  0. fine-tune batch-size, 100 average error as one update
+%  1. fine-tune learning rate, 
+%  2. fine-tune activation function, tan, exp, ...
+% 
 alpha = 0.8;
 nHiddenLayers = length(hiddenNodes);
 assert(nHiddenLayers > 0)
