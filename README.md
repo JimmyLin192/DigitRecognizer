@@ -1,8 +1,7 @@
 Digit Recognizer
 ===============
 
-This project participates in kaggle competition. 
-
+This project participates in kaggle competition.  
 In the meanwhile, this project is also my SSC358 project.
  
 
@@ -43,4 +42,5 @@ NU-SVM with the same configuration achieves accuracy **0.89743**.
 Progress #2 issued at April 16
 ---------------
 C-SVM with normalization preprocessing achieves **0.93571**.
-NU-SVM with the same preprocessing achieves ****.
+**Majority Voting Ensemble Method**, containing PCA-KNN, KNN, libsvm-All-CSVM,
+achieves **0.96714**. Still no breakthrough.
