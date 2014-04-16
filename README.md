@@ -11,8 +11,7 @@ This project would contain:
 * DataSet: MINIST digit image data
 * One proposal, due at ***April 4th***
 * One final project report, due at ***May 2nd***
-* Codebase for all involved algorithm
-
+* Codebase for all involved algorithm 
 See detailed information at ***http://www.kaggle.com/c/digit-recognizer***.
 
 Introduction
@@ -32,3 +31,10 @@ Progress #1 issued at March 29
 We work out initial version of **Principle Component Analysis**(PCA), and submit it with KNN classification model. In this submission, we acquire an prediction accuracy of **0.96886** and ranked at **148** at that date.
 
 We also tried Random Forest method based on PCA 100 pricipal components and achieve **0.95457** accuracy.
+
+Progress #2 issued at April 14
+---------------
+C-SVM with preprocessed data by **Principle Component Analysis** (100
+principal components). The prediction accuracy achieved is **0.91043**.
+
+NU-SVM with the same configuration achieves accuracy **0.89743**.
