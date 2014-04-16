@@ -1,4 +1,4 @@
-function PCA_C_SVM (trainFile, testFile, outLabels)
+function NU_SVM (trainFile, testFile, outLabels)
 
 [train_labels, train_instances] = libsvmread(trainFile);
 
@@ -13,7 +13,7 @@ index = index';
 
 output = [index predicted_labels];
 
-libsvmwrite(outLabels, ['ImageId' 'Label']);
-libsvmwrite(outLabels, output, 1, 0);
+csvwrite(outLabels, ['ImageId' 'Label']);
+csvwrite(outLabels, output, 1, 0);
 
 end
