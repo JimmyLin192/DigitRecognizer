@@ -38,3 +38,9 @@ C-SVM with preprocessed data by **Principle Component Analysis** (100
 principal components). The prediction accuracy achieved is **0.91043**.
 
 NU-SVM with the same configuration achieves accuracy **0.89743**.
+
+
+Progress #2 issued at April 16
+---------------
+C-SVM with normalization preprocessing achieves **0.93571**.
+NU-SVM with the same preprocessing achieves ****.
