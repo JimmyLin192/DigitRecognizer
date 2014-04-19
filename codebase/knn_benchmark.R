@@ -2,8 +2,8 @@
 
 library(FNN)
 
-train <- read.csv("../data/train.csv", header=TRUE)
-test <- read.csv("../data/test.csv", header=TRUE)
+train <- read.csv("../data/PCA_train_64.csv", header=TRUE)
+test <- read.csv("../data/PCA_test_64.csv", header=TRUE)
 
 labels <- train[,1]
 train <- train[,-1]
@@ -13,5 +13,5 @@ results <- (0:9)[knn(train, test, labels, k = 10, algorithm="cover_tree")]
 cat("KNN ends...")
 
 cat("Write to external file starts...")
-write(results, file="knn_benchmark.csv", ncolumns=1) 
+write(results, file="PCA_64_KNN_10.csv", ncolumns=1) 
 cat("Write to external file ends...")

@@ -1,8 +1,8 @@
 function PCA (trainInFile, testInFile, outTrainfile, outTestFile)
 
 % read in the image file data with header
-M = csvread(trainInFile,1,0);
-testPixels = csvread(testInFile,1,0);
+M = csvread(trainInFile,0,0);
+testPixels = csvread(testInFile,0,0);
 
 nDigits = size(M,1);
 nCols = size(M,2);
@@ -15,7 +15,7 @@ M = M(:,2:nCols);
 % since SVD on raw input matrix is too expensive,
 % we subsample it and run svd to apply PCA
 % TODO: run svd on original matrix? 
-sampleSize = 5000;
+sampleSize = 512;
 sampleIdx = mod(randi(nDigits, [1 sampleSize]), nDigits);
 subM = M(sampleIdx, :);
 [U, Sigma, V] = svd(subM); 
@@ -31,12 +31,16 @@ end
 
 % TODO: one way is to cross validate on the number of pc
 % extract the right singular matrix
-nPrincipalComponents = 100;
+nPrincipalComponents = 64;
 subV = V(:, 1:nPrincipalComponents);
 % derive the PCA truncated matrix
 PCAedM = M * subV;
 PCAedTestM = testPixels * subV;
 
-PCAedMwithLabels = [labels PCAedM];
+A = PCAedM;
+A = bsxfun(@minus,A,min(A,[],1));
+A = bsxfun(@times,A,1./max(A,[],1));
+
+PCAedMwithLabels = [labels A];
 csvwrite(outTrainfile, PCAedMwithLabels)
 csvwrite(outTestFile, PCAedTestM)
