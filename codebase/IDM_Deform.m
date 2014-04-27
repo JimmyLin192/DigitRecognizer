@@ -58,8 +58,8 @@ for testIdx = theStart:theEnd,
 
     fprintf (fid, '%d,%d\n', testIdx, min_class)
     fprintf ('%d,%d\n', testIdx, min_class)
-    fclose(fid)
 end
+fclose(fid);
 
 end
 
