@@ -26,28 +26,59 @@ filename = strcat(['IDM_' num2str(theStart) '_' num2str(theEnd) '.csv']);
 outFile = strcat([outDir filename]);
 fprintf('Output Filename: %s\n', outFile)
 
+% for parallelism
+numWorkers = 14;
+loadEachWorker = nTrainDigits / numWorkers;
+
 for testIdx = theStart:theEnd,
+
+    min_dists = zeros(numWorkers, 1);
+    min_imgs = zeros(numWorkers, 1);
+    min_classes = zeros(numWorkers, 1);
     test_img = test_features(testIdx,:);
+
+    for workerIdx = 1:numWorkers,
+        min_dists(workerIdx) = inf;
+        min_imgs(workerIdx) = inf;
+        min_classes(workerIdx) = inf;
+    end
+    parfor workerIdx = 1:numWorkers,
+        base = 1+(workerIdx-1)*loadEachWorker);
+        top = workerIdx*loadEachWorker;
+        workload = base:top;
+        md, mi, mc = compute(base, load, train_features[workload], ...
+                  train_labels[workload], test_img);
+        min_dists(workerIdx) = md;
+        min_imgs(workerIdx) = mi;
+        min_classes(workerIdx) = mc;
+    end
+    [~, index] = min(min_dists);
+    min_class = min_classes(index);
+
+    fprintf ('Test Index: %d, Classified as %d\n', testIdx, min_class)
+    csvwrite(outFile, testIdx, testIdx, 0)
+    csvwrite(outFile, min_class, testIdx, 1)
+end
+end
+
+function compute (base, load, train_features, train_labels, test_img)
     min_dist = inf;
     min_img = inf;
     min_class = inf;
-    for trainIdx = 1:nTrainDigits,
+    for trainIdx = 1:load,
         train_img = train_features(trainIdx,:);
         dist = IDM_distance(test_img, train_img);
         if dist < min_dist,
             min_dist = dist;
-            min_img = trainIdx;
+            min_img = trainIdx + base;
             min_class = train_labels(trainIdx);
         end
     end
-    fprintf ('Test Index: %d, Classified as %d\n', testIdx, min_class)
-    csvwrite(outFile, testIdx, testIdx, 0)
-    csvwrite(outFile, min_class, testIdx, 0)
-end
 end
 
-%%% Computation for IDM distance
-%%
+%% NAME:
+%    Computation for IDM distance
+%
 %% See: 
 %    Deformation Model for Image Recognition (Algorithm 3)
 %
@@ -58,7 +89,7 @@ function s = IDM_distance(A, B)
 WIDTH = 28;
 HEIGHT = 28;
 s = 0;
-w = 3;
+w = 1;
 for i = 1:WIDTH,
     for j = 1:HEIGHT,
         min_edist = inf;
