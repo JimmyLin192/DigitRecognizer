@@ -1,0 +1,2 @@
+#!/bin/bash
+cat workspace/DigitRecognizer/result/IDM/* | sort -n -k 1 | uniq
