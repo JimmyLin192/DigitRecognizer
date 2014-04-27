@@ -1,12 +1,14 @@
 %% IDM DEFORMATION MODEL
 %% AUTHOR: JIMMY LIN
+%% INVOCATION:
+%    IDM_Deform('../data/train.csv', '../data/test.csv', '../result/', 1, 1000)
 %% USAGE:
 %    rawTrainFile - input csv file for training data
 %    rawTestFile - input csv file for testing data
 %    theStart - the test data instance our prediction starts from
 %    theEnd - the test data instance our prediction ends to
-
 function IDM_Deform (rawTrainFile, rawTestFile, outDir, theStart, theEnd)
+matlabpool('open', 4);
 fprintf('Start reading trainData..\n')
 trainData = csvread(rawTrainFile);
 train_labels = trainData(:,1);
@@ -28,10 +30,10 @@ fprintf('Output Filename: %s\n', outFile)
 
 % for parallelism
 numWorkers = 14;
-loadEachWorker = nTrainDigits / numWorkers;
+LoadEachWorker = nTrainDigits / numWorkers;
 
 for testIdx = theStart:theEnd,
-
+    tic
     min_dists = zeros(numWorkers, 1);
     min_imgs = zeros(numWorkers, 1);
     min_classes = zeros(numWorkers, 1);
@@ -43,11 +45,12 @@ for testIdx = theStart:theEnd,
         min_classes(workerIdx) = inf;
     end
     parfor workerIdx = 1:numWorkers,
-        base = 1+(workerIdx-1)*loadEachWorker);
-        top = workerIdx*loadEachWorker;
-        workload = base:top;
-        md, mi, mc = compute(base, load, train_features[workload], ...
-                  train_labels[workload], test_img);
+        fprintf('Worker %d is working now\n', workerIdx)
+        base = 1+(workerIdx-1)*LoadEachWorker;
+        top = workerIdx*LoadEachWorker;
+        workLoad = base:top;
+        [md, mi, mc] = compute(base, LoadEachWorker, train_features(workLoad,:), ...
+                  train_labels(workLoad), test_img);
         min_dists(workerIdx) = md;
         min_imgs(workerIdx) = mi;
         min_classes(workerIdx) = mc;
@@ -58,14 +61,17 @@ for testIdx = theStart:theEnd,
     fprintf ('Test Index: %d, Classified as %d\n', testIdx, min_class)
     csvwrite(outFile, testIdx, testIdx, 0)
     csvwrite(outFile, min_class, testIdx, 1)
-end
+    toc
 end
 
-function compute (base, load, train_features, train_labels, test_img)
+matlabpool('close');
+end
+
+function [md, mi, mc] = compute (base, Load, train_features, train_labels, test_img)
     min_dist = inf;
     min_img = inf;
     min_class = inf;
-    for trainIdx = 1:load,
+    for trainIdx = 1:Load,
         train_img = train_features(trainIdx,:);
         dist = IDM_distance(test_img, train_img);
         if dist < min_dist,
@@ -74,6 +80,9 @@ function compute (base, load, train_features, train_labels, test_img)
             min_class = train_labels(trainIdx);
         end
     end
+    md = min_dist; 
+    mi = min_img;
+    mc = min_class;
 end
 
 %% NAME:
