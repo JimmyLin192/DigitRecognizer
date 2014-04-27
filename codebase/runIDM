@@ -1,0 +1,2 @@
+#!/bin/bash
+matlab -nodisplay -r "IDM_Deform ('../data/train.csv', '../data/test.csv', '../result/', $1, $2)"
