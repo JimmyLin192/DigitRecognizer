@@ -25,6 +25,7 @@ nClasses = length(unique(train_labels));
 
 filename = strcat(['IDM_' num2str(theStart) '_' num2str(theEnd) '.csv']);
 outFile = strcat([outDir filename]);
+fid = fopen(outFile, 'w+');
 fprintf('Output Filename: %s\n', outFile)
 
 % for parallelism
@@ -55,9 +56,9 @@ for testIdx = theStart:theEnd,
     [~, index] = min(min_dists);
     min_class = min_classes(index);
 
+    fprintf (fid, '%d,%d\n', testIdx, min_class)
     fprintf ('%d,%d\n', testIdx, min_class)
-    %csvwrite(outFile, testIdx, testIdx, 0)
-    %csvwrite(outFile, min_class, testIdx, 1)
+    fclose(fid)
 end
 
 end
