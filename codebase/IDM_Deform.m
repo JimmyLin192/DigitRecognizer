@@ -8,7 +8,6 @@
 %    theStart - the test data instance our prediction starts from
 %    theEnd - the test data instance our prediction ends to
 function IDM_Deform (rawTrainFile, rawTestFile, outDir, theStart, theEnd)
-matlabpool('open', 4);
 fprintf('Start reading trainData..\n')
 trainData = csvread(rawTrainFile);
 train_labels = trainData(:,1);
@@ -33,7 +32,6 @@ numWorkers = 14;
 LoadEachWorker = nTrainDigits / numWorkers;
 
 for testIdx = theStart:theEnd,
-    tic
     min_dists = zeros(numWorkers, 1);
     min_imgs = zeros(numWorkers, 1);
     min_classes = zeros(numWorkers, 1);
@@ -45,7 +43,6 @@ for testIdx = theStart:theEnd,
         min_classes(workerIdx) = inf;
     end
     parfor workerIdx = 1:numWorkers,
-        fprintf('Worker %d is working now\n', workerIdx)
         base = 1+(workerIdx-1)*LoadEachWorker;
         top = workerIdx*LoadEachWorker;
         workLoad = base:top;
@@ -58,13 +55,11 @@ for testIdx = theStart:theEnd,
     [~, index] = min(min_dists);
     min_class = min_classes(index);
 
-    fprintf ('Test Index: %d, Classified as %d\n', testIdx, min_class)
-    csvwrite(outFile, testIdx, testIdx, 0)
-    csvwrite(outFile, min_class, testIdx, 1)
-    toc
+    fprintf ('%d,%d\n', testIdx, min_class)
+    %csvwrite(outFile, testIdx, testIdx, 0)
+    %csvwrite(outFile, min_class, testIdx, 1)
 end
 
-matlabpool('close');
 end
 
 function [md, mi, mc] = compute (base, Load, train_features, train_labels, test_img)
