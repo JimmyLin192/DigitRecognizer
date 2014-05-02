@@ -2,8 +2,7 @@
 ##    FILENAME:   getListOfAvailableHosts.py    
 ##    VERSION:    1.0
 ##    SINCE:      2014-04-27
-##    AUTHOR: 
-##        Jimmy Lin (xl5224) - JimmyLin@utexas.edu  
+##    AUTHOR: ##        Jimmy Lin (xl5224) - JimmyLin@utexas.edu  
 ##
 ############################################################
 ##    Edited by MacVim
@@ -13,6 +12,10 @@
 import HTMLParser
 import sys
 import os
+import datetime
+
+MAX_SERVERS_USED = 50
+
 class TableParser(HTMLParser.HTMLParser):
     def __init__(self):
         HTMLParser.HTMLParser.__init__(self)
@@ -21,18 +24,26 @@ class TableParser(HTMLParser.HTMLParser):
         self.tdIdx = 0
         self.record = []
         self.result = []
+        self.isDown = False
 
     def handle_starttag(self, tag, attrs):
         if tag == 'tr':
             self.in_tr = True
-        if tag == 'td':
+            self.isDown = False
+        if self.isDown:
+            pass
+        elif tag == 'td':
             self.in_td = True
 
     def handle_data(self, data):
         if self.in_td:
             self.record.append(data)
             self.tdIdx = self.tdIdx + 1
-            if self.tdIdx == 5 and len(self.record) == 5:
+            if data == 'down': 
+                self.isDown = True
+                self.record = []
+                self.tdIdx = 0
+            if (self.tdIdx == 5 and len(self.record) == 5):
                 self.result.append(tuple(self.record))
                 self.record = []
                 self.tdIdx = 0
@@ -44,10 +55,13 @@ class TableParser(HTMLParser.HTMLParser):
             self.in_td = False
 
 if __name__ == '__main__':
+    
     start = int(sys.argv[1])
     logFile = open(sys.argv[2], 'a+', 0)
     sys.stdout = logFile
+    sys.stderr = open('./error.log', 'a+', 0)
     ## parse the html
+    nServerUsed = 0
     p = TableParser()
     data = ""
     for line in sys.stdin:
@@ -55,18 +69,31 @@ if __name__ == '__main__':
     p.feed(data)
     ## make use of the result
     hostsList = p.result
+    print str(datetime.datetime.now())
+    hostsList.reverse()
+    if hostsList[0] is None:
+        hostsList = hostsList[1:]
+    '''
+    for ho in hostsList:
+        print ho
+    '''
 
-    for host, status, upTimes, nUsers, Load in hostsList:
+    for host, status, upTimes, nUsers, Load in hostsList:  
+        # double check if there is a down server
+        if status == 'down' or nServerUsed >= MAX_SERVERS_USED:
+            continue
         nUsers = int(nUsers)
         Load = float(Load)
         if status == 'up' and nUsers <= 1:
             if Load <= 0.05:
-                logstr = 'invoke: '+ host+ ' input: '+ str(start)+' end:'+ str(start+19)
+                logstr = 'invoke: '+ host+ ' input: '+ str(start)+' end:'+str(start+29)
                 #print logstr
                 cmd = './autoLogin %d %s' % (start, host)
                 cmd += ' & '
                 print cmd 
                 os.system(cmd)
-                start += 20
+                start += 30
+                nServerUsed += 1
 
     logFile.close()
+    sys.stderr.close()
