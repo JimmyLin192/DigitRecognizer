@@ -471,7 +471,7 @@ For further details about this leader board, please visit
 \section{Conclusion and Discussion} \label{Conclu}
 
 % TODO: some summarization
-Complex model does not mean high performance. It is true that the academia
+High model complexity does not indicate high performance. It is true that the academia
 has developed plenty of theoretically elegant model, most of which are
 difficult to implement and understand. However, they are not necessarily suitable
 for any problem on any circumstance. In our experiment, the PCA-KNN model is
@@ -492,10 +492,14 @@ input like 42,000 training images.
 % TODO: further improvement
 When it comes to the possible further improvement, the first come to our mind
 is to attempt to make full use of the neural network architecture. Just as
-stated in the implementation details of neural network, we can actually learn
-a lot.
-
-
+stated in the implementation details of neural network, we can actually cross
+validate on various parameters, including the network structure, activation
+function for each layer, and the regularization parameter (or iteration number
+if early stopping technique is used). It is true that the searching space
+would be rather large if we consider to optimize over such many factors. The
+way to practically touch the limit of neural network model in digit
+recognition problem is to make use of our existing distributed computing
+framework.
 
 \section{References}
 
