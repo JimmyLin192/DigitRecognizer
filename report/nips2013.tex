@@ -334,6 +334,11 @@ softmax function as follows: given a set of
     \sigma({\bf z}) = \frac{e^{{\bf z}_j}}{\sum_{k=1}^{K} e^{{\bf z}_k}}
 \end{align}
 
+Note that the input vector $\mathbf{z}$ should be offset down by maximum
+element of that vector, in which way the "blowup" of every individual
+exponential term can be avoided. This is actually a common problem in the
+scientific computing.
+
 To train neural network model, we need to feed the neural network with a
 series of entities. The flow of information, while doing training,
 involves in two stages: forward propagation and backward propagation.  In the
