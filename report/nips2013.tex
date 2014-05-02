@@ -51,12 +51,11 @@ Austin, TX 78712 \\
 
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
 
 \nipsfinalcopy % Uncomment for camera-ready version
 
 
-% TODO: Find a report guideline 
-% TODO: 
 \begin{document}
 
 
@@ -401,6 +400,61 @@ these activation function for nodes of each layer. Last but not in the least,
  does not incorporate any of them. 
 
 \subsection{Deformation Model}
+
+% introduction
+In academia, the deformation models are especially suited for local changes as they often
+occur in the presence of image object variability. And among the
+advanced models like Convolutional Neural Network, Deep Belief Network, the
+deformation model is one approach that combines simplicity of implementation,
+low-computational complexity, and highly competitive performance across
+various real-world image recognition tasks.
+
+
+% intuitive idea of this model: 1. mapping 2. decision rule
+The intuitive idea of deformation model is rather simple.
+Given a test image $A$ and an series of test image $B$, the category of
+one object is determined by the closest reference image. However, the concepts
+of "distance" is not simply euclidean distance. It is euclidean distance over
+the non-linear mapping feature space. The decision rule is formulated by the
+following formula:
+\begin{align}
+    k(A) = \argmin_{k} \{ \min_{n=1,..,N_k} d(A, B_kn) \}
+\end{align}
+
+\begin{figure}[h]  
+\begin{center}
+    \includegraphics[width=5.5in,height=4.5in]{./images/NMAP.png} \\
+    \caption{Constraints of different Deformation Mappings for different model} 
+    \label{NMAP}
+\end{center}
+\end{figure}
+
+% present a series of non-linear mapping: different orders
+The collections of existing deformation model identified with its constraints
+imposed on the non-linear image deformation mapping are shown in the 
+Figure \ref{NMAP}.
+
+
+% implementation
+\begin{figure}[h] 
+\begin{center}
+    \includegraphics[width=3.5in,height=1.5in]{./images/IDM.png} \\
+    \caption{Algorithmic description of Image Distortion Model} 
+    \label{IDM}
+\end{center}
+\end{figure}
+Our implementation only involves in the simplest deformation model, the one
+with zero-order non-linear mapping called IDM (Image Distortion Model). The
+algorithmic description is shown in Figure \ref{IDM}.
+
+Even though Image Distortion Model is identified as the least computational
+complexity among all deformation models and the advanced machine learning
+algorithms, it still requires parallel computing to bring the result to light
+within two days. In fact, we self-design the distributed computing
+architecture with the employment of about 50 UTCS Linux machine and four
+3.3GHZ CPU on each machine. For further detailed implementation of the
+distributed computing framework, please see the attachment of the report.  
+
 
 \section{Result} \label{Comparison}
 
