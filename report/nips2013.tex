@@ -3,9 +3,8 @@
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{tikz,amsmath}
-\usepackage[procnames]{listings}
+\usepackage[]{./mcode}
 %\documentstyle[nips13submit_09,times,art10]{article} % For LaTeX 2.09
-
 
 \title{Project Report: Digit Recognizer}
 
@@ -62,13 +61,13 @@ Austin, TX 78712 \\
 \maketitle
 
 \begin{abstract}
-    BACKGROUND. The idea of recognizing digit . 
-    The topic of this project is trying to figure out a model that is good at
-    determing the human-understood digit within an handwritten image of a
-    single digit. Kaggle competition. 
-    We attempted the simplest deformation model called IDM and figure out the
-    computational solution throught distributed and concurrent system.
-
+    In this project proposal, we derived several models (PCA-KNN, Neural
+    Network, IDM) that are able to recognize digits with a decent accuracy.
+    And their advantages and drawbacks are compared. To make the project more
+    interesting, we participated in Digits Reconizer competition, organized in
+    Kaggle to test our models. We attempted the simplest deformation model
+    called IDM and figure out the computational solution through distributed
+    and concurrent system. 
 \end{abstract}
 
 \section{Introduction}
@@ -421,19 +420,19 @@ following formula:
     k(A) = \argmin_{k} \{ \min_{n=1,..,N_k} d(A, B_kn) \}
 \end{align}
 
-\begin{figure}[h]  
-\begin{center}
-    \includegraphics[width=5.5in,height=4.5in]{./images/NMAP.png} \\
-    \caption{Constraints of different Deformation Mappings for different model} 
-    \label{NMAP}
-\end{center}
-\end{figure}
 
 % present a series of non-linear mapping: different orders
 The collections of existing deformation model identified with its constraints
 imposed on the non-linear image deformation mapping are shown in the 
-Figure \ref{NMAP}.
+following Figure.
 
+\begin{figure}[h]  
+\begin{center}
+    \includegraphics[width=5.5in,height=2.25in]{./images/NMAP.png} \\
+    \caption{Constraints of different Deformation Mappings for different model} 
+    \label{NMAP}
+\end{center}
+\end{figure}
 
 % implementation
 \begin{figure}[h] 
@@ -527,9 +526,108 @@ For further details about this leader board, please visit
 \end{center}
 
 \subsection{More about Optimal Solution: PCA-KNN}
+
+Our goal is applying eigenvector decomposition of covariance (also known as
+PCA) for identifying the images. First, eigenvectors with larger eigenvalues
+are extracted from the sample trainingImages to retain the principal
+components of the images. Second, projecting both testImages(28000) and
+trainImages(42000) onto the eigenspace, which is reduced dimension. Finally,
+using the features captured by projection to identify testImages by K nearest
+neighbor classification.  In order to capture the principal components of the
+images, the eigenvectors derived from the samples of trainImages are sorted
+from the largest to the smallest according to their eigenvalues. The top T
+eigenvectors are selected because they represent in which directions the data
+span dramatically.  With those principal eigenvectors, less information is
+need to reconstruct the testimage and identification. 
+
+\begin{figure}[h]
+\begin{center}
+    \includegraphics[width=2in,height=2in]{./images/eigenvector.png} \\
+    \caption{Top 64 Eigenvectors } 
+\end{center}
+\end{figure}
+
+Another issue is about how many eigenvectors to take. Fig.1 shows the
+eigenvectors extracted from the trainImages. The sample size N =630, K =5. The
+top 64 eigenvectors are displayed according to their eigenvalues. The  top 8
+eigenvectors are much vivid than others. This could be explained that images
+don't span uniformly in the space, they vary tremendously in some directions,
+and little in some other directions. By extracting the top eigenvectors, it
+allows us to capture enough features to reconstruct images and identifying
+them.
+
+The eigenvectors are calculated in such way: if the sample size N is larger
+than the X (the total number of pixels of one image), the eigenvector are
+calculated directly, else if the sample size N is smaller than the X,
+calculate the eigenvector of size(N*N) first, then derive the original ones by
+A* V. (Please refer to the code) Then the top eigenvectors are extracted. I
+take the sample size N from 200 to 40000. Fig.2 shows the outcome. The error
+rate decreases dramatically  from 0.0738 to 0.0351 as the sample size increase
+and stays around 0.25 after size increases up to 630.  Theoretically, the more
+sample size we have, the better outcome we achieved. But that is not the case.
+The reason might come from as following: The more features are captured when
+sample size is increased at the beginning. However, since PCA is linear
+transformation that map the images from the high dimension into lower
+dimension, some nonlinear features of the images will not be transformed. That
+limits PCA's performance.
+
+Cross-validation of Number of sample size for PCA technique
+
+To explore the impact of number of sample on the accuracy, three-nested
+for-loop is executed.  Here is the piece of code:
+
+\lstinputlisting[language=matlab]{../codebase/cvSD.m}
+
+\begin{figure}[h]
+\begin{center}
+    \includegraphics[width=5.5in,height=2in]{./images/sampleSize.png} \\
+    \caption{Cross Validation on number of Sample Size used in PCA} 
+\end{center}
+\end{figure}
+
+Cross-validation of Number of top eigenvectors
+
+\begin{figure}[h]
+\begin{center}
+    \includegraphics[width=5.5in,height=2in]{./images/nTopEigenVector.png} \\
+    \caption{Cross Validation on Number of K} 
+    \label{44444}
+\end{center}
+\end{figure}
+
+Fig.\ref{44444} shows the impact of number of top eigenvectors on the accuracy.  I
+calculate  the error as number of top eigenvectors T varies from 4 to 512.
+The error drops greatly from 0.36 to 0.25 as T increases from 4 to 64 and does
+not change too much after that. This verified that using top 64 eigenvectors
+is good enough to capture the features of images and reconstruction. In
+addition, it saves us a lot of time. Using all eigenvectors cost 449.59
+seconds to finish the test, while using top 64 eigenvectors only need 41.30
+seconds
+
+Cross-validation of Number of K
+
+\begin{figure}[h]
+\begin{center}
+    \includegraphics[width=5.5in,height=2in]{./images/cvK.png} \\
+    \caption{Cross Validation on Number of K} 
+    \label{55555}
+\end{center}
+\end{figure}
+
+Fig. \ref{55555} indicates the effect of K. For each testImage, the nearest K neighbors
+are searched in the trainImages. I used “pdist2” function to compute the
+euclidean distance between testImage and trainImage.  The “mode” is used to
+find the most likely label in trainLabels which is compared to the testImages.
+In my simulation, the optimal value of K is around 5. It is interesting that
+error increases as K becomes larger. The reason behind might comes from
+Euclidean distance. The euclidean distance measures the geometrical distance
+which might not be proper. Take a spiral for example, Euclidean distance would
+find the wrong neighbor.  The more neighbors are found, the more interferences
+are introduced.
+
+
 \section{Conclusion and Discussion} \label{Conclu}
 
-% TODO: some summarization
 High model complexity does not indicate high performance. It is true that the academia
 has developed plenty of theoretically elegant model, most of which are
 difficult to implement and understand. However, they are not necessarily suitable
@@ -597,37 +695,23 @@ Deep, big, simple neural nets for handwritten digit recognition. {\it Neural
 
 \newpage
 \appendix
-%% code reference setting
-\definecolor{keywords}{RGB}{0,0,0}
-\definecolor{comments}{RGB}{0,0,0}
-\definecolor{red}{RGB}{0,0,0}
-\definecolor{green}{RGB}{0,0,0}
-\lstset{language=Python, 
-        basicstyle=\ttfamily\small, 
-        keywordstyle=\color{keywords},
-        commentstyle=\color{comments},
-        stringstyle=\color{red},
-        showstringspaces=false,
-        identifierstyle=\color{green},
-        procnamekeys={def,class}}
-
 \section{Matlab Implementation of PCA-KNN Classifier}
 \subsection{Driver Script}
-\lstinputlisting[language=Matlab]{../codebase/PCA-KNN/src.m}
+\lstinputlisting{../codebase/PCA-KNN/src.m}
 \subsection{PCA-KNN Routine}
-\lstinputlisting[language=Matlab]{../codebase/PCA-KNN/estimate_labels.m}
+\lstinputlisting{../codebase/PCA-KNN/estimate_labels.m}
 \subsection{Cross Validation}
-\lstinputlisting[language=Matlab]{../codebase/PCA-KNN/crossval.m}
+\lstinputlisting{../codebase/PCA-KNN/crossval.m}
 \newpage
 
 \section{Our Attempted Implementation of Neural Network}
-\lstinputlisting[language=Matlab]{../codebase/NN.m}
+\lstinputlisting{../codebase/NN.m}
 \newpage
 
 
 \section{Matlab Implementation of Deformation Model}
 \subsection{IDM Classifier}
-\lstinputlisting[language=Matlab]{../codebase/IDM_Deform.m}
+\lstinputlisting{../codebase/IDM_Deform.m}
 \newpage
 \subsection{Distributed Computation}
 \lstinputlisting[language=Python]{../codebase/IDM/getListOfAvailableHosts.py}
@@ -635,13 +719,13 @@ Deep, big, simple neural nets for handwritten digit recognition. {\it Neural
 
 \section{Matlab Implementation of Ensemble Method}
 \subsection{Ensemble Method by Majority Voting}
-\lstinputlisting[language=Matlab]{../codebase/Ensemble.m}
+\lstinputlisting{../codebase/Ensemble.m}
 
 \newpage
 \section{Invocation of other libraries}
 \subsection{Deep learning Toolbox}
-\lstinputlisting[language=Matlab]{../codebase/DPNN.m}
+\lstinputlisting{../codebase/DPNN.m}
 \subsection{Libsvm}
-\lstinputlisting[language=Matlab]{../codebase/NU_SVM.m}
+\lstinputlisting{../codebase/NU_SVM.m}
 
 \end{document}

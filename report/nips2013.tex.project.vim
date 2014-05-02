@@ -21,6 +21,6 @@ let b:atp_StarEnvDefault = ''
 let b:atp_StarMathEnvDefault = ''
 let b:atp_updatetime_insert = 4000
 let b:atp_updatetime_normal = 2000
-let b:atp_LocalCommands = ['\fix', '\new', '\knn', '\layersep']
+let b:atp_LocalCommands = ['\fix', '\new', '\argmin', '\knn', '\layersep']
 let b:atp_LocalEnvironments = []
 let b:atp_LocalColors = ['keywords', 'comments', 'red', 'green']
