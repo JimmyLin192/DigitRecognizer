@@ -1,0 +1,64 @@
+NAME1: XIN LIN
+EID: xl5224
+EMAIL: jimmylin@utexas.edu
+
+NAME2: JISONG YANG
+EID: jy7226
+EMAIL: jsyang993@gmail.com
+
+Dataset:
+Since our dataset is larger than 10 MB, here we just post the link to that
+dataset
+    http://www.kaggle.com/c/digit-recognizer/data
+
+Codebase:
+The following is whole codebase to turn in for our final project.
+
+    Ensemble.m  # majority voting ensemble method
+
+    IDM:
+    IDM_Deform.m # contain IDM routine definition
+    autoLogin 
+    compute
+    getListOfAvailableHosts.py # distributed computing framework
+    runIDM 
+    showIDM
+
+    NeuralNetwork:
+    DPNN.m # reference to deep learning toolbox
+    NN.m # our own attempted implementation
+
+    PCA-KNN: (our best solution)
+    crossval.m # cross validation
+    estimate_labels.m # PCA-KNN model definition
+    src.m # driver script file
+
+    SVM:
+    NU_SVM.m  # code reference the libsvm
+    PCA_C_SVM.m # code reference to libsvm with data preprocessed by PCA
+
+How to run the code:
+
+    Ensemble (filelists, outfile) 
+
+    IDM_Deform (rawTrainFile, rawTestFile, outDir, theStart, theEnd)
+    %    IDM_Deform('../data/train.csv', '../data/test.csv', '../result/',
+    %        1, 1000)
+    %% USAGE:
+    %    rawTrainFile - input csv file for training data
+    %    rawTestFile - input csv file for testing data
+    %    theStart - the test data instance our prediction starts from
+    %    theEnd - the test data instance our prediction ends to
+
+    DPNN(inTrainFile, inTestFile, outfile)
+
+    NN(hiddenNodes, iterations, trainInFile, testInFile, testOutFile)
+    % Note that the input hiddenNodes does not include intercept node
+    % sample input: [300 200 100 50]
+
+    % for PCA-KNN, directly invoke the pca-knn with cross validation by
+    src()
+
+    NU_SVM (trainFile, testFile, outLabels)
+
+    PCA_C_SVM (trainFile, testFile, outLabels)

@@ -1,0 +1,4 @@
+#!/bin/bash
+rm -f index.html
+wget http://apps.cs.utexas.edu/unixlabstatus/
+cat index.html | sed '14,63d' | python getListOfAvailableHosts.py $1 $2

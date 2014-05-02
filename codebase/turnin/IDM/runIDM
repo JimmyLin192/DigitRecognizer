@@ -1,0 +1,17 @@
+#!/bin/bash
+(
+cd workspace/DigitRecognizer/codebase/ && 
+matlab -nodisplay -r "IDM_Deform ('../data/train.csv','../data/test.csv','../result/IDM/', $1, $2)"  
+) &
+(
+cd workspace/DigitRecognizer/codebase/ && 
+matlab -nodisplay -r "IDM_Deform ('../data/train.csv','../data/test.csv','../result/IDM/', $3, $4)"  
+) &
+(
+cd workspace/DigitRecognizer/codebase/ && 
+matlab -nodisplay -r "IDM_Deform ('../data/train.csv','../data/test.csv','../result/IDM/', $5, $6)"  
+) &
+(
+cd workspace/DigitRecognizer/codebase/ && 
+matlab -nodisplay -r "IDM_Deform ('../data/train.csv','../data/test.csv','../result/IDM/', $7, $8)"  
+)

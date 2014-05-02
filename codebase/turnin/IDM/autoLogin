@@ -1,0 +1,13 @@
+#!/bin/bash
+s1=$1
+e1=$(($s1 + 4))
+s2=$(($e1 + 1))
+e2=$(($s2 + 4))
+s3=$(($e2 + 1))
+e3=$(($s3 + 4))
+s4=$(($e3 + 1))
+e4=$(($s4 + 4))
+server="jimmylin@$2.cs.utexas.edu"
+command="./runIDM $s1 $e1 $s2 $e2 $s3 $e3 $s4 $e4"
+echo "$command to $server"
+ssh $server $command
