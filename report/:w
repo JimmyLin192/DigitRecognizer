@@ -382,10 +382,7 @@ the features become the principal components chosen by us.
 There are also several concerns for the implementation of Neural Network model.
 The first one coming to our mind is the number of hidden nodes for usage. We
 turned to various experiment report for the parameter optimization of neural
-network on digit recognition. It turns out that about five to six layers of
-nodes will result in astonishingly good performance. One convincing approach
-to address this problem is to cross validate on the network structure, but
-this requires a large computational cost.
+network on digit recognition. We did not come up with the most influential.
 Another concern is the determination of leraning rate $\alpha$. The third one
 is selection of activation function for hidden nodes. Typically, there are a
 few options: $tan(x)$, $log(x)$, $exp(x)$. We can cross validate over all
@@ -397,103 +394,22 @@ these activation function for nodes of each layer. Last but not in the least,
 
 \subsection{Deformation Model}
 
-\section{Result} \label{Comparison}
+\section{Result Comparison} \label{Comparison}
 
-\subsection{Commitment History}
-{\bf Progress \#1 issued at March 29 }
+Neural Network, our implementation does not come out with good result (see
+attachment), perhaps because of no mechanism to avoid overfitting. We
+ultimately turn to the implementation of some other's neural network
+implementation, Deep Learning Toolbox. 
 
-1. Jimmy Lin: We work out initial version of **Principle Component Analysis**(PCA), and
-submit it with KNN classification model. In this submission, we acquire an
-prediction accuracy of **0.96886** and ranked at **148** at that date. 
-
-2. Jimmy Lin: We also tried Random Forest method based on PCA 100 pricipal components and
-achieve **0.95457** accuracy.
-
-{\bf Progress \#2 issued at April 14 }
-
-1. Jimmy Lin: C-SVM with preprocessed data by **Principle Component Analysis** (100
-principal components). The prediction accuracy achieved is **0.91043**.
-
-2. Jimmy Lin: NU-SVM with the same configuration achieves accuracy **0.89743**.
-
-3. Jimmy Lin: code up our own implementation of neural network. However,
-our implementation does not come out with satisfyingresult, perhaps because of
-no mechanism to avoid overfitting.  
-
-{\bf Progress \#3 issued at April 16 }
-
-1. Jimmy Lin: Reference to libsvm's C-SVM method with normalization preprocessing achieves **0.93571**.
-
-2. Jimmy Lin: Implement Majority Voting Ensemble Method, containing PCA-KNN, KNN, libsvm-All-CSVM,
-achieves **0.96714**. Still no breakthrough.
-
-{\bf Progress \#4 issued at April 24 }
-
-1. Jason Yang: Apply Cross Validation Techniques to determine the optimal parameters of
-PCA-KNN model. The prediction accuracy achieved is **0.97300** and in the
-meanwhile, we refresh our ranking to 99.
-
-
-{\bf Progress \#5 issued at April 26 }
-
-1. Jason Yang: Turn to the implementation of neural network implementation in
-Deep Learning Toolbox. And achieves an accuracy of ** **.
-
-{\bf Progress \#6 issued at April 27 }
-
-1. Jimmy Lin: read the paper of deformation model and code up for it. To
-compute the solution by this model, we make use of over 50 UTCS Linux machine
-to run in parallel. However, our implementation only achieves **0.92629**,
-which does not reach our expectation.
-
-\subsection{Ranking on Kaggle Competition}
-
-Our optimal solution model {\bf PCA-KNN} ranks at 99 of the leader board.
-Following is the snapshot of our position on that leaderboard.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=5.5in,height=1.2in]{./images/Rank.png} \\
-    \caption{Ranking of our best solution (PCA-KNN model)}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=5.5in,height=0.9in]{./images/topRank.png} \\
-    \caption{Performance of top solution in this competition}
-\end{figure}
-For further details about this leader board, please visit
-\begin{center}
-\url{http://www.kaggle.com/c/digit-recognizer/leaderboard} 
-\end{center}
-
-\subsection{More about Optimal Solution: PCA-KNN}
 \section{Conclusion and Discussion} \label{Conclu}
 
 % TODO: some summarization
-Complex model does not mean high performance. It is true that the academia
-has developed plenty of theoretically elegant model, most of which are
-difficult to implement and understand. However, they are not necessarily suitable
-for any problem on any circumstance. In our experiment, the PCA-KNN model is
-simplest in both theoretical and practical respects, but it achieves highest
-performance for (maybe particularly) this digit recognition problem.
+Complex model does not mean high performance. 
 
-Sometimes, the quality and quantity of the dataset matters a lot. It has been
-a long debate over whether the dataset plays more significant role over the
-model in the area of data mining and machine learning or whether model is
-supposed to be more important. It can be extremely hard to say one is always
-over the other. Nevertheless, from our project, we can say that sometimes the
-quantity really does matter, and even take a dominant role. The observation
-supporting this argument is that the \knn model does not perform well when the
-given training data is of small size, comparing to the case of large size
-input like 42,000 training images.  
-
+Sometimes, the dataset may determine the performance of model
 
 % TODO: further improvement
-When it comes to the possible further improvement, the first come to our mind
-is to attempt to make full use of the neural network architecture. Just as
-stated in the implementation details of neural network, we can actually learn
-a lot.
+Try a large scale neural network
 
 
 
